@@ -1,25 +1,12 @@
 import TaskCard from './TaskCard';
 import { FiPlus } from 'react-icons/fi';
-import { getStatusColor, getStatusLabel } from '../constants/status';
-
+import { getStatusColor } from '../constants/status';
 
 export default function Column({ status, tasks, onAddTask, onEditTask, onDeleteTask }) {
   const handleAdd = () => {
     const title = prompt(`Add new ${status.replace('_', ' ')} task`);
     if (title && title.trim() !== '') {
       onAddTask({ title: title.trim(), status });
-    }
-  };
-
-  const getHeaderColor = (status) => {
-    switch (status) {
-      case 'in_progress':
-        return '#ff8ac1';
-      case 'completed':
-        return '#111';
-      case 'open':
-      default:
-        return '#ccc';
     }
   };
 
@@ -36,10 +23,10 @@ export default function Column({ status, tasks, onAddTask, onEditTask, onDeleteT
     }}>
       <div style={{
         backgroundColor: '#fff',
-        borderTop: `6px solid ${getHeaderColor(status)}`,
+        borderTop: `6px solid ${getStatusColor(status)}`,
         borderRadius: '12px',
         padding: '12px 16px',
-        marginBottom: '16px',
+        marginBottom: '10px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

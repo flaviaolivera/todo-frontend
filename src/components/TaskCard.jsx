@@ -9,7 +9,7 @@ export default function TaskCard({ task, onDelete, onEdit }) {
         backgroundColor: '#ffffffcc',
         borderRadius: '12px',
         padding: '16px',
-        marginBottom: '12px',
+        marginBottom: '8px',
         boxShadow: '0 4px 8px rgba(0,0,0,0.06)',
         display: 'flex',
         flexDirection: 'column',
