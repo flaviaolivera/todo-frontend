@@ -27,6 +27,8 @@ export default function TodoApp() {
   return (
     <div style={{
       display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
       gap: '16px',
       padding: '24px',
       height: '100vh',
