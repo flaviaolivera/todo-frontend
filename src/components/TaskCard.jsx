@@ -1,67 +1,95 @@
-import { useState } from 'react';
+import { FiEdit, FiX } from 'react-icons/fi';
 
-const API_URL = 'https://todo-backend-adol.onrender.com/tasks';
-
-export default function TaskCard({ task, onDelete, onUpdate }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(task.title);
-
-  const handleDelete = async () => {
-    try {
-      const res = await fetch(`${API_URL}/${task.id}`, {
-        method: 'DELETE'
-      });
-      if (res.ok) onDelete(task.id);
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
-  };
-
-  const handleEdit = async () => {
-    try {
-      const res = await fetch(`${API_URL}/${task.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: editedTitle })
-      });
-      if (res.ok) {
-        const updated = await res.json();
-        onUpdate(updated);
-        setIsEditing(false);
-      }
-    } catch (error) {
-      console.error('Error updating task:', error);
+export default function TaskCard({ task, onDelete, onEdit }) {
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'in_progress':
+        return '#ff8ac1'; // rosa pastel
+      case 'completed':
+        return '#111'; // negro
+      case 'open':
+      default:
+        return '#ccc'; // gris claro
     }
   };
 
   return (
-    <div style={{
-      backgroundColor: '#fff',
-      padding: '10px',
-      marginBottom: '10px',
-      borderRadius: '5px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-    }}>
-      {isEditing ? (
-        <>
-          <input
-            type="text"
-            value={editedTitle}
-            onChange={e => setEditedTitle(e.target.value)}
-            style={{ width: '100%', marginBottom: '6px' }}
-          />
-          <button onClick={handleEdit} style={{ marginRight: '5px' }}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <p>{task.title}</p>
-          <div style={{ display: 'flex', gap: '5px' }}>
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
-          </div>
-        </>
-      )}
+    <div
+      style={{
+        position: 'relative',
+        backgroundColor: '#ffffffcc',
+        borderRadius: '12px',
+        padding: '16px',
+        marginBottom: '12px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.06)',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'transform 0.2s ease',
+      }}
+    >
+      {/* Botones en la esquina */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          display: 'flex',
+          gap: '6px',
+        }}
+      >
+        <button
+          onClick={onEdit}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: '#666',
+            padding: '4px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+          }}
+          className="task-btn-edit"
+        >
+          <FiEdit size={16} />
+        </button>
+        <button
+          onClick={onDelete}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: '#666',
+            padding: '4px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+          }}
+          className="task-btn-delete"
+        >
+          <FiX size={16} />
+        </button>
+      </div>
+
+      {/* Título con círculo de estado */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span
+          style={{
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            backgroundColor: getStatusColor(task.status),
+            flexShrink: 0,
+          }}
+        />
+        <h4
+          style={{
+            margin: 0,
+            fontSize: '15px',
+            fontWeight: 400,
+            color: '#111',
+          }}
+        >
+          {task.title}
+        </h4>
+      </div>
+
     </div>
   );
 }
