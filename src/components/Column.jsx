@@ -1,5 +1,7 @@
 import TaskCard from './TaskCard';
 import { FiPlus } from 'react-icons/fi';
+import { getStatusColor, getStatusLabel } from '../constants/status';
+
 
 export default function Column({ status, tasks, onAddTask, onEditTask, onDeleteTask }) {
   const handleAdd = () => {

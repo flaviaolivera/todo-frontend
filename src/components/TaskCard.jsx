@@ -1,18 +1,7 @@
 import { FiEdit, FiX } from 'react-icons/fi';
+import  { getStatusColor }  from '../constants/status';
 
 export default function TaskCard({ task, onDelete, onEdit }) {
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'in_progress':
-        return '#ff8ac1'; // rosa pastel
-      case 'completed':
-        return '#111'; // negro
-      case 'open':
-      default:
-        return '#ccc'; // gris claro
-    }
-  };
-
   return (
     <div
       style={{
@@ -27,7 +16,6 @@ export default function TaskCard({ task, onDelete, onEdit }) {
         transition: 'transform 0.2s ease',
       }}
     >
-      {/* Botones en la esquina */}
       <div
         style={{
           position: 'absolute',
@@ -67,7 +55,6 @@ export default function TaskCard({ task, onDelete, onEdit }) {
         </button>
       </div>
 
-      {/* Título con círculo de estado */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <span
           style={{
